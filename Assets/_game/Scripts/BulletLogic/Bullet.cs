@@ -11,10 +11,6 @@ public abstract class Bullet : MonoBehaviour, IDeathEvent
 
     public event Action<IDeathEvent> Dead;
 
-    public virtual void Update()
-    {
-    }
-
     private void OnEnable()
     {
         _lifeCoroutine = StartCoroutine(LifeDuration());
@@ -30,10 +26,6 @@ public abstract class Bullet : MonoBehaviour, IDeathEvent
         }
     }
 
-    public virtual void OnTriggerEnter2D(Collider2D collision)
-    {
-    }
-
     protected void TriggerDeath()
     {
         if (Dead != null)
@@ -46,7 +38,9 @@ public abstract class Bullet : MonoBehaviour, IDeathEvent
 
     protected virtual IEnumerator LifeDuration()
     {
-        yield return new WaitForSeconds(_lifeTime);
+        var wait = new WaitForSeconds(_lifeTime);
+
+        yield return wait;
 
         TriggerDeath();
     }
